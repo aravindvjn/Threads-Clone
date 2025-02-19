@@ -4,9 +4,12 @@ import { FaRegComment } from "react-icons/fa";
 import { IoIosHeartEmpty, IoMdHeart } from "react-icons/io";
 import Button from "./button";
 import { LuSend } from "react-icons/lu";
+import { tree } from "next/dist/build/templates/app-page";
+import Comments from "../comment/comments";
 
 const OperationalButtons = () => {
   const [liked, setLiked] = useState<boolean>(false);
+  const [showComments, setShowComments] = useState<boolean>(false);
 
   const handleLike = () => {
     setLiked((prev) => !prev);
@@ -14,8 +17,13 @@ const OperationalButtons = () => {
 
   const buttonClasses = "flex gap-[2px] opacity-60 items-center";
 
+  const handleShowComments = () => {
+    setShowComments(true);
+  };
+
   return (
-    <div className="flex pl-[57px] py-[10px] items-center gap-[18px]">
+    <div className="flex pl-[67px] py-[10px] items-center gap-[18px]">
+      <Comments setShowComments={setShowComments} showComments={showComments} />
       <Button onClick={handleLike}>
         <p
           className={`${buttonClasses} ${
@@ -26,7 +34,7 @@ const OperationalButtons = () => {
           <span>50</span>
         </p>
       </Button>
-      <Button>
+      <Button onClick={handleShowComments}>
         <p className={buttonClasses}>
           <FaRegComment size={20} />
           <span>1</span>

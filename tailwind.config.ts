@@ -11,6 +11,8 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        cardcolor: "var(--cardcolor)",
+        bordercolor: "var(--bordercolor)"
       },
     },
   },
