@@ -20,7 +20,7 @@ const SortFeed = () => {
         className={`${pathName === "/following" ? "border-b-2 border-white" : ""} ${commonClasses}`}
         href={"/following"}
       >
-        For you
+        Following
       </Link>
     </div>
   );

@@ -1,14 +1,5 @@
-import HomeHeader from "@/components/common/header";
-import SortFeed from "@/components/common/sort-feed";
-import ThreadsLogo from "@/components/logo/threads-logo";
-import React from "react";
+import HomePage from "@/components/home/home-page";
 
-const page = () => {
-  return (
-    <div>
-      <HomeHeader />
-    </div>
-  );
-};
-
-export default page;
+export default function Page() {
+  return <HomePage />;
+}
