@@ -7,7 +7,7 @@ import { authAction } from "@/lib/actions/auth-action";
 
 const RegisterForm = () => {
   const [state, formAction, isPending] = useActionState(authAction, {
-    isLogin: true,
+    isLogin: false,
   });
 
   const inputClasses =
@@ -27,26 +27,51 @@ const RegisterForm = () => {
       </p>
 
       <input
+        minLength={3}
+        maxLength={20}
+        defaultValue={state.data?.name}
+        type="text"
+        name="name"
+        placeholder="Name"
+        className={inputClasses}
+      />
+      <input
+        defaultValue={state.data?.email}
         type="email"
         name="email"
         placeholder="Email"
         className={inputClasses}
       />
       <input
+        minLength={3}
+        maxLength={15}
+        defaultValue={state.data?.username}
         type="text"
         placeholder="Username"
         name="username"
         className={inputClasses}
+        onInput={(e: React.FormEvent<HTMLInputElement>) => {
+          const target = e.currentTarget;
+          target.value = target.value.replace(/[^a-z0-9_]/g, "");
+        }}
       />
+
       <input
+        minLength={8}
+        defaultValue={state.data?.password}
         type="text"
         placeholder="Password"
         name="password"
         className={inputClasses}
       />
 
-      <button className="p-[15px] bg-foreground font-semibold text-background rounded-lg">
-        Register Account
+      {state.error && <p className="text-red-500">{state.error}</p>}
+
+      <button
+        disabled={isPending}
+        className="p-[15px] bg-foreground font-semibold text-background rounded-lg"
+      >
+        {isPending ? "Registering..." : "Register Account"}
       </button>
 
       <p className="pt-[10px] opacity-60">Already have an account?</p>

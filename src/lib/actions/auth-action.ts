@@ -1,19 +1,137 @@
 'use server'
+import xss from "xss";
+import { prisma } from "../db";
+import bcrypt from 'bcrypt'
+import { redirect } from "next/navigation";
+import { registerAccountValidation } from "../validations/register-validation";
+import jwt from 'jsonwebtoken';
+import { cookies } from 'next/headers'
+
 export type AuthInputType = {
     username: string;
     email: string;
-    password: string
+    password: string,
+    name: string
 }
 
 export type PrevStateType = {
     error?: string;
-    success?: boolean;
     data?: AuthInputType;
     isLogin: boolean
 }
 export const authAction = async (prevState: PrevStateType, formData: FormData): Promise<PrevStateType> => {
 
-    const username = formData.get("username")
-    const password = formData.get("password")
-    return prevState;
+    const username = xss(formData.get("username") as string)
+    const password = xss(formData.get("password") as string)
+    const email = xss(formData.get("email") as string
+    )
+    const name = xss(formData.get("name") as string)
+
+    prevState = {
+        ...prevState, data: {
+            email, password, username, name
+        },
+        error: ""
+    }
+
+    if (!username) {
+        prevState.error = "Please fill the username";
+        return prevState;
+    }
+
+    if (!password) {
+        prevState.error = "Please fill the password"
+        return prevState;
+    }
+
+    if (prevState.isLogin) {
+        try {
+
+            const user = await prisma.user.findUnique({
+                where: {
+                    username,
+                }
+            })
+
+            if (!user) {
+                prevState.error = "Invalid Credentials"
+                return prevState
+            }
+
+
+            const isMatch = await bcrypt.compare(password, user.password)
+
+            if (!isMatch) {
+                prevState.error = "Invalid Credentials";
+                return prevState;
+            }
+            const token = jwt.sign(
+                { userId: user.id, username: user.username },
+                process.env.SECRET_KEY!,
+                { expiresIn: "1h" }
+            );
+            const cookieStore = await cookies();
+            cookieStore.set("session_token", token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === "production",
+                sameSite: "lax",
+                maxAge: 3600, // 1 hour
+            });
+        } catch (error) {
+            console.log("Error in Login :", error)
+            prevState.error = "Something went wrong";
+            return prevState;
+
+        }
+        redirect("/")
+    }
+
+    const isError = await registerAccountValidation({
+        email, password, username, name
+    })
+
+    if (isError) {
+        prevState.error = isError;
+        return prevState
+    }
+
+    try {
+        const hashedPassword = await bcrypt.hash(password, 10)
+
+        if (!hashedPassword) {
+            throw new Error()
+        }
+
+        const user = await prisma.user.create({
+            data: {
+                email,
+                password: hashedPassword,
+                username,
+                name
+            }
+        })
+
+        if (!user) {
+            throw new Error()
+        }
+        const token = jwt.sign(
+            { userId: user.id, username: user.username },
+            process.env.SECRET_KEY!,
+            { expiresIn: "1h" }
+        );
+
+        const cookieStore = await cookies();
+        cookieStore.set("session_token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "lax",
+            maxAge: 3600,
+        });
+    } catch (error) {
+        console.log("Error in Registering user :", error)
+        prevState.error = "Something went wrong";
+        return prevState;
+
+    }
+    redirect('/')
 }

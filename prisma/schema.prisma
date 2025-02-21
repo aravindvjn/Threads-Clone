@@ -18,6 +18,7 @@ model Thread {
   content   String
   authorId  String
   author    User     @relation(fields: [authorId], references: [id])
+  image_urls String[]
   createdAt DateTime @default(now())
   replies   Reply[]  @relation("ThreadReplies")
 }
@@ -28,6 +29,7 @@ model Reply {
   threadId  String
   thread    Thread   @relation("ThreadReplies", fields: [threadId], references: [id])
   authorId  String
+  image_url String
   author    User     @relation(fields: [authorId], references: [id])
   createdAt DateTime @default(now())
 }
@@ -37,6 +39,7 @@ model User {
   name     String
   email    String   @unique()
   username String   @unique()
+  password String
   threads  Thread[]
   replies  Reply[]
 }
