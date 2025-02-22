@@ -2,6 +2,13 @@
 import { prisma } from "../db"
 import { getUserId } from "./get-user-id"
 
+export type UserDataType = {
+    name: string;
+    id: string;
+    username: string;
+    profilePic: string | null;
+} | null
+
 export const getUserData = async () => {
     try {
         const userId = await getUserId()

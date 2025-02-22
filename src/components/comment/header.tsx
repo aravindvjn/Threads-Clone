@@ -2,12 +2,12 @@ import React, { Dispatch, SetStateAction } from "react";
 import { PiDotsThreeCircle } from "react-icons/pi";
 
 type HeaderProps = {
-  setShowComments: Dispatch<SetStateAction<boolean>>;
+  setShowComments: Dispatch<SetStateAction<string>>;
 };
 
 const Header = ({ setShowComments }: HeaderProps) => {
   const handleCancel = () => {
-    setShowComments(false);
+    setShowComments("");
   };
 
   return (

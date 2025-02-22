@@ -22,10 +22,11 @@ const OperationalButtons = ({
   threadId,
 }: OperationalButtonsType) => {
   //State to show comments page
-  const [showComments, setShowComments] = useState<boolean>(false);
+  const [showComments, setShowComments] = useState<string>("");
 
   //Optimisitic States to update Likes and Like Count
   const [optimisticLiked, setOptimisticLiked] = useOptimistic(isUserLiked);
+
   const [optimisticLikeCount, setOptimisticLikeCount] =
     useOptimistic(likeCount);
 
@@ -33,34 +34,35 @@ const OperationalButtons = ({
   const handleLike = async () => {
     startTransition(() => {
       setOptimisticLiked((prev) => !prev);
-      setOptimisticLikeCount((prev) => (prev + (optimisticLiked ? -1 : 1)));
+      setOptimisticLikeCount((prev) => prev + (optimisticLiked ? -1 : 1));
     });
-  
+
     try {
-      
       await updateThreadLike(threadId);
-      
-
     } catch {
-
       startTransition(() => {
         setOptimisticLiked((prev) => !prev);
-        setOptimisticLikeCount((prev) => (prev + (optimisticLiked ? 1 : -1)));
+        setOptimisticLikeCount((prev) => prev + (optimisticLiked ? 1 : -1));
       });
-      
     }
   };
-  
 
   const buttonClasses = "flex gap-[2px] opacity-60 items-center";
 
   const handleShowComments = () => {
-    setShowComments(true);
+    if (threadId) {
+      setShowComments(threadId);
+    }
   };
 
   return (
     <div className="flex pl-[67px] py-[10px] items-center gap-[18px]">
-      <Comments setShowComments={setShowComments} showComments={showComments} />
+      {showComments && (
+        <Comments
+          setShowComments={setShowComments}
+          showComments={showComments}
+        />
+      )}
       <Button onClick={handleLike}>
         <p
           className={`${buttonClasses} ${

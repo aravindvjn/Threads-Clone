@@ -37,10 +37,9 @@ export const createThread = async (images: File[] | null, prevState: PrevStateTy
         }
 
         let image_urls;
-        console.log("images", images)
+
         if (Array.isArray(images) && images[0].size > 0) {
-            console.log("image exists")
-            // Validate that all files are images
+
             const validImageTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"]
 
             for (const file of images) {
@@ -66,8 +65,6 @@ export const createThread = async (images: File[] | null, prevState: PrevStateTy
             }
         })
 
-        console.log("thread",thread)
-        console.log(image_urls)
 
         if(!thread){
             return {

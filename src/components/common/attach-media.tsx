@@ -4,15 +4,22 @@ import { MdOutlineGifBox, MdOutlineLocationOn } from "react-icons/md";
 import { IoMdPhotos } from "react-icons/io";
 import { BiPoll } from "react-icons/bi";
 import { handleCompressImages } from "@/lib/helper/compress-images";
+import { usePathname } from "next/navigation";
 
 type AttachMediaType = {
-  images?: File[] | null;
   setImages?: Dispatch<SetStateAction<File[] | null>>;
   setImageUrls: Dispatch<SetStateAction<string[]>>;
 };
-const AttachMedia = ({ setImageUrls, images, setImages }: AttachMediaType) => {
+const AttachMedia = ({ setImageUrls, setImages }: AttachMediaType) => {
+
+  const pathName = usePathname()
   const imageInputRef = useRef<HTMLInputElement>(null);
 
+  let isMultiple = true;
+
+  if(pathName ==='/'){
+    isMultiple = false;
+  }
   const pickImage = () => {
     imageInputRef.current?.click();
   };
@@ -46,7 +53,7 @@ const AttachMedia = ({ setImageUrls, images, setImages }: AttachMediaType) => {
     <div className="flex items-center gap-5 opacity-60 py-[5px]">
       <input
         accept="image/*"
-        multiple
+        multiple={isMultiple}
         onChange={handleImage}
         ref={imageInputRef}
         type="file"
