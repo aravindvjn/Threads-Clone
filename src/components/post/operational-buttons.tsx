@@ -1,19 +1,56 @@
 "use client";
-import React, { useState } from "react";
+import React, { startTransition, useOptimistic, useState } from "react";
 import { FaRegComment } from "react-icons/fa";
 import { IoIosHeartEmpty, IoMdHeart } from "react-icons/io";
 import Button from "./button";
 import { LuSend } from "react-icons/lu";
-import { tree } from "next/dist/build/templates/app-page";
 import Comments from "../comment/comments";
+import { updateThreadLike } from "@/lib/actions/update-thread-like";
+import { threadId } from "worker_threads";
 
-const OperationalButtons = () => {
-  const [liked, setLiked] = useState<boolean>(false);
+type OperationalButtonsType = {
+  isUserLiked: boolean;
+  likeCount: number;
+  replyCount: number;
+  threadId: string;
+};
+
+const OperationalButtons = ({
+  isUserLiked,
+  likeCount,
+  replyCount,
+  threadId,
+}: OperationalButtonsType) => {
+  //State to show comments page
   const [showComments, setShowComments] = useState<boolean>(false);
 
-  const handleLike = () => {
-    setLiked((prev) => !prev);
+  //Optimisitic States to update Likes and Like Count
+  const [optimisticLiked, setOptimisticLiked] = useOptimistic(isUserLiked);
+  const [optimisticLikeCount, setOptimisticLikeCount] =
+    useOptimistic(likeCount);
+
+  //Handle Like (with server action to update if the operation is success, otherwise back to old state.)
+  const handleLike = async () => {
+    startTransition(() => {
+      setOptimisticLiked((prev) => !prev);
+      setOptimisticLikeCount((prev) => (prev + (optimisticLiked ? -1 : 1)));
+    });
+  
+    try {
+      
+      await updateThreadLike(threadId);
+      
+
+    } catch {
+
+      startTransition(() => {
+        setOptimisticLiked((prev) => !prev);
+        setOptimisticLikeCount((prev) => (prev + (optimisticLiked ? 1 : -1)));
+      });
+      
+    }
   };
+  
 
   const buttonClasses = "flex gap-[2px] opacity-60 items-center";
 
@@ -27,17 +64,21 @@ const OperationalButtons = () => {
       <Button onClick={handleLike}>
         <p
           className={`${buttonClasses} ${
-            liked ? "text-red-500 opacity-100" : ""
+            optimisticLiked ? "text-red-500 opacity-100" : ""
           }`}
         >
-          {liked ? <IoMdHeart size={25} /> : <IoIosHeartEmpty size={25} />}
-          <span>50</span>
+          {optimisticLiked ? (
+            <IoMdHeart size={25} />
+          ) : (
+            <IoIosHeartEmpty size={25} />
+          )}
+          <span>{optimisticLikeCount}</span>
         </p>
       </Button>
       <Button onClick={handleShowComments}>
         <p className={buttonClasses}>
           <FaRegComment size={20} />
-          <span>1</span>
+          <span className="ml-[2px]">{replyCount}</span>
         </p>
       </Button>
       <Button>

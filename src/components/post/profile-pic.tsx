@@ -1,13 +1,11 @@
-import Image from "next/image";
 import React from "react";
-
+import defaultProfilePicture from '../../assets/default-profile.svg'
+import Image from "next/image";
 type ProfilePictureProps = {
   profilePic: string;
   size: number;
 };
 
-const defaultProfilePicture =
-  "https://images.pexels.com/photos/30773764/pexels-photo-30773764/free-photo-of-vibrant-outdoor-fashion-shoot-with-red-accents.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load";
 const ProfilePic = ({ profilePic, size }: ProfilePictureProps) => {
   return (
     <Image

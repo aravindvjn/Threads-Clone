@@ -14,13 +14,24 @@ datasource db {
 }
 
 model Thread {
-  id        String   @id @default(uuid())
-  content   String
-  authorId  String
-  author    User     @relation(fields: [authorId], references: [id])
+  id         String   @id @default(uuid())
+  content    String
+  authorId   String
+  likes      Int      @default(0)
+  author     User     @relation(fields: [authorId], references: [id])
   image_urls String[]
+  createdAt  DateTime @default(now())
+  replies    Reply[]  @relation("ThreadReplies")
+  likesList  Like[]   @relation("ThreadLikes")
+}
+
+model Like {
+  id        String   @id @default(uuid())
+  userId    String
+  threadId  String
+  thread    Thread   @relation(fields: [threadId], references: [id], onDelete: Cascade, name: "ThreadLikes")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
-  replies   Reply[]  @relation("ThreadReplies")
 }
 
 model Reply {
@@ -35,11 +46,22 @@ model Reply {
 }
 
 model User {
-  id       String   @id @default(uuid())
-  name     String
-  email    String   @unique()
-  username String   @unique()
-  password String
-  threads  Thread[]
-  replies  Reply[]
+  id         String   @id @default(uuid())
+  name       String
+  email      String   @unique()
+  username   String   @unique()
+  profilePic String?
+  password   String
+  Thread     Thread[]
+  Like       Like[]
+  Reply      Reply[]
+  Profile    Profile?
+}
+
+model Profile {
+  id        String   @id @default(uuid())
+  userId    String   @unique()
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  followers String[] 
+  following String[] 
 }
