@@ -1,14 +1,28 @@
 "use client";
 import React, { useState } from "react";
 import { FollowStatusType } from "./type";
+import { updateFollowers } from "@/lib/actions/update-followers";
+import { predictFollowState } from "@/lib/helper/follow-status";
 
-const Button = ({ padding = 8 }: { padding?: number }) => {
-  const [status, setStatus] = useState<FollowStatusType>("Follow");
+const Button = ({
+  padding = 8,
+  follow,
+  username,
+}: {
+  padding?: number;
+  follow: FollowStatusType;
+  username: string;
+}) => {
+  const [status, setStatus] = useState<FollowStatusType>(follow);
 
-  const handleStatus = () => {
-    setStatus((prevStatus) =>
-      prevStatus === "Follow" ? "Following" : "Follow"
-    );
+  const handleStatus = async () => {
+    setStatus((prev) => predictFollowState(prev));
+    const res = await updateFollowers(username);
+    if (!res) {
+      setStatus((prev) => predictFollowState(prev));
+    } else {
+      setStatus(res);
+    }
   };
 
   const ButtonClasses =

@@ -1,3 +1,5 @@
+import { FollowStatusType } from "@/components/profile/type";
+
 export const timeAgo = (timestamp: Date | undefined) => {
     if (!timestamp) return null
     const now = new Date();
@@ -20,3 +22,11 @@ export const timeAgo = (timestamp: Date | undefined) => {
 
     return "Just now";
 };
+
+
+export const predictFollowState = (followStatus: FollowStatusType) => {
+    if (followStatus === 'Following') {
+        return "Follow"
+    }
+    return "Following"
+}

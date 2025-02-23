@@ -1,1 +1,1 @@
-export type FollowStatusType = 'Follow' | 'Following' 
+export type FollowStatusType = 'Follow' | 'Following'

@@ -4,9 +4,9 @@ import { getUserId } from "./get-user-id"
 
 export type UserDataType = {
     name: string;
-    id: string;
     username: string;
     profilePic: string | null;
+    followersCount?:number
 } | null
 
 export const getUserData = async () => {

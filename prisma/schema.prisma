@@ -52,16 +52,26 @@ model User {
   username   String   @unique()
   profilePic String?
   password   String
-  Thread     Thread[]
-  Like       Like[]
-  Reply      Reply[]
-  Profile    Profile?
+  threads    Thread[]
+  likes      Like[]
+  replies    Reply[]
+
+  followers  Follower[] @relation("UserFollowers")
+  following  Follower[] @relation("UserFollowing")
+
+  createdAt  DateTime @default(now())
 }
 
-model Profile {
-  id        String   @id @default(uuid())
-  userId    String   @unique()
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  followers String[] 
-  following String[] 
+model Follower {
+  id           String @id @default(uuid())
+
+  followerId   String
+  followingId  String
+
+  follower     User   @relation("UserFollowers", fields: [followerId], references: [id], onDelete: Cascade)
+  following    User   @relation("UserFollowing", fields: [followingId], references: [id], onDelete: Cascade)
+
+  createdAt    DateTime @default(now())
+
+  @@unique([followerId, followingId]) 
 }

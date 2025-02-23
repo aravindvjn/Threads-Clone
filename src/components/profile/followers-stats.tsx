@@ -1,26 +1,48 @@
 import React from "react";
 import ProfilePic from "../post/profile-pic";
 import Button from "./button";
+import { UserDataType } from "@/lib/get-functions/get-user-data";
+import { FollowStatusType } from "./type";
 
-const FollowersStatus = () => {
+type ProfileData = {
+  mutualFollowers: UserDataType[];
+  followersCount: number;
+  follow: FollowStatusType;
+  username: string;
+};
+
+const FollowersStatus = ({
+  followersCount,
+  mutualFollowers,
+  follow,
+  username,
+}: ProfileData) => {
+  const renderMutuals = () => {
+    if (mutualFollowers?.length > 0) {
+      return mutualFollowers?.map((user, index) => (
+        <SingleProfileRing key={user?.username} index={index} {...user!} />
+      ));
+    }
+  };
+
   return (
-    <div className="flex flex-col gap-[20px]"> 
+    <div className="flex flex-col gap-[20px]">
       <div className="flex items-center">
-          {Array(3)
-            .fill(null)
-            .map((_, index) => (
-              <SingleProfileRing key={index} index={index} />
-            ))}
-        <p className="opacity-55 pl-[5px]">412 k followers</p>
+        {renderMutuals()}
+
+        <p className="opacity-55 pl-[5px]">{followersCount || 0} followers</p>
       </div>
-      <Button />
+      <Button username={username} follow={follow} />
     </div>
   );
 };
 
 export default FollowersStatus;
 
-const SingleProfileRing = ({ index }: { index: number }) => {
+const SingleProfileRing = ({
+  index,
+  profilePic,
+}: { index: number } & UserDataType) => {
   return (
     <div
       className={`relative w-[28px] h-[28px] flex items-center justify-center ${
@@ -28,7 +50,7 @@ const SingleProfileRing = ({ index }: { index: number }) => {
       }`}
     >
       <div className="w-full h-full rounded-full bg-background flex items-center justify-center">
-        <ProfilePic profilePic="" size={24} />
+        <ProfilePic profilePic={profilePic || ""} size={24} />
       </div>
     </div>
   );

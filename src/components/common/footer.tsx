@@ -55,7 +55,7 @@ const navLinks = [
     focusIcon: <IoMdHeart size={28} />,
   },
   {
-    path: "/profile",
+    path: "/@username",
     icon: <IoPersonOutline size={28} />,
     focusIcon: <IoPerson size={28} />,
   },

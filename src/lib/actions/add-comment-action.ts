@@ -40,6 +40,10 @@ export const addComment = async (images: File[] | null, prevState: PrevStateType
         const content = xss(formData.get("content") as string)
         let image_urls;
 
+        if (!content.trim()) {
+            return prevState;
+        }
+
         if (Array.isArray(images) && images[0]?.size > 0) {
 
             const validImageTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"]
