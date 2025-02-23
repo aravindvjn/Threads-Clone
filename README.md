@@ -48,10 +48,10 @@ A fully functional Threads Clone. Users can create posts (threads), interact wit
 
    ```env
    DATABASE_URL= your_postgresql_database_url
-   SECRET_KEY=your secret_key
-   CLOUDINARY_UPLOAD_PRESET= cloundinary_preset
-   CLOUDINARY_CLOUD_NAME= cloundinary_name
-   CLOUDINARY_UPLOAD_URL= cloundinary_url
+   SECRET_KEY= your_secret_key
+   CLOUDINARY_UPLOAD_PRESET= cloundinary_upload_preset
+   CLOUDINARY_CLOUD_NAME= cloundinary_cloud_name
+   CLOUDINARY_UPLOAD_URL= cloundinary_upload_url
 
    ```
 
@@ -65,18 +65,6 @@ A fully functional Threads Clone. Users can create posts (threads), interact wit
    ```sh
    npm run dev
    ```
-
-## Deployment
-
-- Deploy frontend and backend using **Vercel**.
-- Ensure that environment variables are set up in the deployment settings.
-
-## Future Enhancements
-
-- Media uploads (images & videos)
-- Real-time notifications
-- Dark mode
-- Search functionality
 
 ## License
 
