@@ -2,6 +2,8 @@ import React from "react";
 import ProfilePic from "./profile-pic";
 import { MdVerified } from "react-icons/md";
 import { timeAgo } from "@/lib/helper/timeago";
+import type { PostHeadProps } from "./type";
+import Link from "next/link";
 
 const PostHead = ({
   content,
@@ -9,24 +11,22 @@ const PostHead = ({
   profilePic,
   username,
   createdAt,
-}: {
-  content: string;
-  contentOpacity?: number;
-  id: string;
-  username: string;
-  profilePic: string | null;
-  createdAt?: Date;
-}) => {
+}:PostHeadProps ) => {
   return (
     <div className="flex px-[10px] pt-[10px] gap-[12px]">
-      <ProfilePic profilePic={profilePic || ""} size={47} />
+
+      <ProfilePic username={username} profilePic={profilePic || ""} size={47} />
+
       <div className="flex flex-col">
-        <p className="flex text-[18px] font-semibold items-center gap-1">
+        <Link href={`/@${username}`} className="flex text-[18px] font-semibold items-center gap-1">
+
           {username} {false && <MdVerified className="text-blue-600" />}
-          <span className="text-gray-500 font-normal">
+
+          <span className="text-gray-500 font-normal pl-1">
             {timeAgo(createdAt)}
           </span>
-        </p>
+
+        </Link>
         <p
           style={{
             opacity: contentOpacity,
@@ -35,6 +35,7 @@ const PostHead = ({
           {content}
         </p>
       </div>
+
     </div>
   );
 };

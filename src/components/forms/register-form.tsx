@@ -6,6 +6,8 @@ import { IoArrowBack } from "react-icons/io5";
 import { authAction } from "@/lib/actions/auth-action";
 
 const RegisterForm = () => {
+
+  //Handle server action to register a new user
   const [state, formAction, isPending] = useActionState(authAction, {
     isLogin: false,
   });

@@ -5,6 +5,8 @@ import { getUserId } from "./get-user-id";
 
 export const getSearchedUser = async (searchParams: string) => {
     try {
+
+        //get user id to exclude the current user from the result
         const userId = await getUserId();
 
         const users = await prisma.user.findMany({

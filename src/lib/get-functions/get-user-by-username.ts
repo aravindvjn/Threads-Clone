@@ -6,6 +6,7 @@ import { getUserId } from "./get-user-id";
 
 export const getUserByUsername = async (username: string) => {
     try {
+
         const userId = await getUserId();
         if (!userId) return null;
 
@@ -52,11 +53,14 @@ export const getUserByUsername = async (username: string) => {
             })
         ]);
 
+        //make an array of followers and following ids
         const userFollowerIds = userFollowers.map(f => f.followerId);
         const otherUserFollowerIds = otherUserFollowers.map(f => f.followerId);
 
+        //find mutual ids
         const mutualFollowerIds = userFollowerIds.filter(id => otherUserFollowerIds.includes(id));
 
+        //fetch mutuals
         const mutualFollowers = await prisma.user.findMany({
             where: { id: { in: mutualFollowerIds } },
             select: { name: true, username: true, profilePic: true },

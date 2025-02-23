@@ -12,19 +12,19 @@ import SingleComment from "./single-comment";
 import CommentInput from "./comment-input";
 import CommentFooter from "./comment-footer";
 import { getComments } from "@/lib/get-functions/get-comments";
-import { CommentsType } from "./type";
+import { CommentsProps, CommentsType } from "./type";
 import { addComment } from "@/lib/actions/add-comment-action";
+import LoadingSpinner from "../common/loading-spinner";
 
-type CommentsProps = {
-  showComments: string;
-  setShowComments: Dispatch<SetStateAction<string>>;
-};
+
 const Comments = ({ showComments, setShowComments }: CommentsProps) => {
+
   const [comments, setComments] = useState<CommentsType[]>([]);
   const [images, setImages] = useState<File[] | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [imageUrls, setImageUrls] = useState<string[]>([]);
 
+  //Handle form server action
   const [state, formAction, isPending] = useActionState(
     addComment.bind(null, images),
     {
@@ -36,6 +36,7 @@ const Comments = ({ showComments, setShowComments }: CommentsProps) => {
     }
   );
 
+  //Fetch all comments
   const fetchComments = async () => {
     setIsLoading(true);
     const results = (await getComments(showComments, 1)) || [];
@@ -43,12 +44,14 @@ const Comments = ({ showComments, setShowComments }: CommentsProps) => {
     setIsLoading(false);
   };
 
+
   useEffect(() => {
     if (showComments) {
       fetchComments();
     }
   }, []);
 
+  //use useEffect to monitor the change in state and if its success, reset the inputs.
   useEffect(() => {
     if (state.success && state.data?.comment) {
       setComments((prev: CommentsType[]) => [...prev, state.data?.comment!]);
@@ -57,9 +60,13 @@ const Comments = ({ showComments, setShowComments }: CommentsProps) => {
     }
   }, [state]);
 
+  //Conditionally rendering the comment section
   if (!showComments) return null;
 
+
+  //Render comments ( conditionally )
   const renderComments = () => {
+
     if (!isLoading && comments.length === 0) {
       return (
         <p className="py-[20px] text-center opacity-60">
@@ -73,17 +80,19 @@ const Comments = ({ showComments, setShowComments }: CommentsProps) => {
         <SingleComment key={comment.id} {...comment} />
       ));
     }
+
     return null;
   };
 
+
   return createPortal(
     <div className="fixed inset-0 bg-background overflow-y-scroll">
+
       <Header setShowComments={setShowComments} />
+
       <div>{renderComments()}</div>
 
-      {isLoading && (
-        <div className="h-6 w-6 mx-auto rounded-full border-4 opacity-60 border-t-transparent border-blue-500 animate-spin"></div>
-      )}
+      {isLoading && <LoadingSpinner />}
 
       <form action={formAction}>
         <CommentInput
@@ -96,6 +105,7 @@ const Comments = ({ showComments, setShowComments }: CommentsProps) => {
         )}
         <CommentFooter isPending={isPending} />
       </form>
+
     </div>,
     document.body
   );

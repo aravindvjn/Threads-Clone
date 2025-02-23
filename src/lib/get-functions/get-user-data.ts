@@ -10,6 +10,7 @@ export type UserDataType = {
 } | null
 
 export const getUserData = async () => {
+    
     try {
         const userId = await getUserId()
 

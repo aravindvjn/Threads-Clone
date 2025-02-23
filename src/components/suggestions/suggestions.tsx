@@ -1,3 +1,4 @@
+'use server'
 import React from "react";
 import SingleSuggestion from "./single-suggestion";
 import { getSuggestions } from "@/lib/get-functions/get-suggestions";
@@ -5,7 +6,7 @@ import { getSuggestions } from "@/lib/get-functions/get-suggestions";
 const Suggestions = async () => {
   const suggestions = (await getSuggestions()) || [];
 
-  if (suggestions.length == -0) {
+  if (suggestions.length === 0) {
     return null;
   }
   return (
@@ -15,7 +16,7 @@ const Suggestions = async () => {
       </p>
       <div className="flex pb-[20px]  pt-[10px] px-[20px] gap-[10px] items-center overflow-x-scroll">
         {suggestions.map((user) => (
-          <SingleSuggestion key={user?.id} {...user} />
+          <SingleSuggestion key={user?.username} {...user} />
         ))}
       </div>
       <hr className="opacity-30 text-foreground pb-[10px]" />

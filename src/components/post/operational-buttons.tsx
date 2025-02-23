@@ -47,6 +47,13 @@ const OperationalButtons = ({
     }
   };
 
+  //Render Like Component
+  const renderLikeComponent = optimisticLiked ? (
+    <IoMdHeart size={25} />
+  ) : (
+    <IoIosHeartEmpty size={25} />
+  );
+
   const buttonClasses = "flex gap-[2px] opacity-60 items-center";
 
   const handleShowComments = () => {
@@ -57,32 +64,33 @@ const OperationalButtons = ({
 
   return (
     <div className="flex pl-[67px] py-[10px] items-center gap-[18px]">
+      
       {showComments && (
         <Comments
           setShowComments={setShowComments}
           showComments={showComments}
         />
       )}
+
       <Button onClick={handleLike}>
         <p
           className={`${buttonClasses} ${
             optimisticLiked ? "text-red-500 opacity-100" : ""
           }`}
         >
-          {optimisticLiked ? (
-            <IoMdHeart size={25} />
-          ) : (
-            <IoIosHeartEmpty size={25} />
-          )}
+          {renderLikeComponent}
+
           <span>{optimisticLikeCount}</span>
         </p>
       </Button>
+
       <Button onClick={handleShowComments}>
         <p className={buttonClasses}>
           <FaRegComment size={20} />
           <span className="ml-[2px]">{replyCount}</span>
         </p>
       </Button>
+
       <Button>
         <span className={buttonClasses}>
           <LuSend size={20} />

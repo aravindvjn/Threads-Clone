@@ -2,38 +2,88 @@
 import { getUserId } from "./get-user-id";
 import { prisma } from "../db";
 
-export const getThreads = async (page: number) => {
+export const getThreads = async (page: number, onlyFollowing?: boolean) => {
+
+    //set limit and skip for pagination feature
     const limit = 10;
     const skip = (page - 1) * limit;
     const userId = await getUserId();
 
-    const threads = await prisma.thread.findMany({
+
+    //Fetch threads by constraints
+    let threads = []
+
+    let followings: string[] = [];
+
+    if (onlyFollowing) {
+
+        if (!userId) return [];
+
+        const followingUsers = await prisma.follower.findMany({
+            where: { followerId: userId },
+            select: { followingId: true }
+        });
+
+        followings = followingUsers.map(f => f.followingId);
+
+    }
+
+    const whereCondition = {
+        ...(onlyFollowing ? {
+            authorId: {
+                in: [...followings, userId ?? '']
+            }
+        } : {
+            likesList: {
+                none: { userId: userId || '' }
+            }
+        })
+    }
+
+
+    const includeQueries = {
+        author: {
+            select: {
+                id: true,
+                username: true,
+                profilePic: true
+            }
+        },
+        likesList: {
+            select: {
+                userId: true
+            }
+        },
+        replies: {
+            select: {
+                id: true
+            }
+        }
+    }
+
+    threads = await prisma.thread.findMany({
+        where: whereCondition,
         orderBy: {
             createdAt: 'desc',
         },
         skip,
         take: limit,
-        include: {
-            author: {
-                select: {
-                    id: true,
-                    username: true,
-                    profilePic: true
-                }
-            },
-            likesList: {
-                select: {
-                    userId: true
-                }
-            },
-            replies: {
-                select: {
-                    id: true
-                }
-            }
-        }
+        include: includeQueries
     });
 
+    if (threads.length < 10 && !onlyFollowing) {
+        threads = await prisma.thread.findMany({
+            orderBy: {
+                createdAt: 'desc',
+            },
+            skip,
+            take: limit,
+            include: includeQueries
+        });
+
+    }
+
+    //suffle the fetched threads randomly
     const shuffledThreads = threads.sort(() => Math.random() - 0.5);
 
     const formattedThreads = shuffledThreads.map(thread => ({

@@ -9,6 +9,7 @@ import { IoAddOutline, IoPerson, IoPersonOutline } from "react-icons/io5";
 import { motion } from "framer-motion";
 
 const Footer = () => {
+  
   const pathName = usePathname();
 
   return (
@@ -20,6 +21,7 @@ const Footer = () => {
       }}
       className="fixed -bottom-1 w-full bg-background border-gray-400/20 h-[60px] flex justify-around items-center"
     >
+
       {navLinks.map((link) => (
         <motion.div whileTap={{ scale: 1.1 }} key={link.path}>
           <Link href={link.path}>
@@ -27,6 +29,7 @@ const Footer = () => {
           </Link>
         </motion.div>
       ))}
+
     </motion.div>
   );
 };

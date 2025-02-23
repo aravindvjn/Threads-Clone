@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from "react";
+
 export type CommentsType = {
     id: string;
     content: string;
@@ -12,3 +14,14 @@ export type CommentsType = {
     };
 }
 
+export type CommentInputProps = {
+  setImages?: Dispatch<SetStateAction<File[] | null>>;
+  setImageUrls: Dispatch<SetStateAction<string[]>>;
+  imageUrls:string[]
+};
+
+
+export type CommentsProps = {
+    showComments: string;
+    setShowComments: Dispatch<SetStateAction<string>>;
+  };

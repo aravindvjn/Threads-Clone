@@ -1,10 +1,5 @@
 import React from "react";
-
-type ButtonProps = {
-  onClick?: () => void;
-  disabled?: boolean;
-  children?: React.ReactNode;
-};
+import { ButtonProps } from "./type";
 
 const Button = ({ onClick, children, disabled }: ButtonProps) => {
   return (

@@ -5,9 +5,12 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 
 const ActivitySortList = ({ slug }: { slug: string }) => {
+
+  //If slug is empty, set it as "All"
   if (!slug) {
     slug = "All";
   }
+
   return (
     <div className="flex items-center p-[10px] pt-[5px] gap-[10px] overflow-x-scroll ">
       {options.map((option, index) => (

@@ -1,11 +1,13 @@
 'use server';
-
-import { revalidatePath } from "next/cache";
 import { prisma } from "../db";
 import { getUserId } from "../get-functions/get-user-id";
 
+
 export const updateFollowers = async (username: string) => {
+
     try {
+
+        //Get current userid
         const userId = await getUserId();
 
         if (!userId) return null;

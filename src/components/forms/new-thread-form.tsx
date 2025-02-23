@@ -1,23 +1,21 @@
 'use client';
-
 import React, { useActionState, useRef, useState } from "react";
 import PostHead from "../post/post-head";
 import AttachMedia from "../common/attach-media";
 import ThreadImagePreview from "../common/thread-image-preview";
 import { createThread } from "@/lib/actions/create-thread-action";
+import type { NewThreadFormType } from "./type";
 
 const NewThreadForm = ({
   user,
-}: {
-  user: {
-    id: string;
-    username: string;
-    profilePic: string | null;
-  };
-}) => {
+}: NewThreadFormType) => {
+
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   const [images, setImages] = useState<File[] | null>(null);
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
+
+  //Handle Server action to create a new thread
   const [state, formAction, isPending] = useActionState(
     createThread.bind(null, images),
     {
@@ -25,8 +23,8 @@ const NewThreadForm = ({
     }
   );
 
-  const [imageUrls, setImageUrls] = useState<string[]>([]);
 
+  //Handle Textarea height ( for making it responsible )
   const handleInput = () => {
     const textArea = textAreaRef.current;
     if (textArea) {
@@ -37,7 +35,9 @@ const NewThreadForm = ({
 
   return (
     <form action={formAction}>
+
       <PostHead {...user} contentOpacity={0.5} content="What's New ?" />
+
       <div className="pl-[57px] py-[10px] pr-[20px]">
         <textarea
           defaultValue={state.data?.content}
@@ -49,7 +49,6 @@ const NewThreadForm = ({
           rows={1}
         />
         <AttachMedia
-          images={images}
           setImages={setImages}
           setImageUrls={setImageUrls}
         />
@@ -67,6 +66,7 @@ const NewThreadForm = ({
           {isPending ? "Posting..." : "Post"}
         </button>
       </div>
+
     </form>
   );
 };

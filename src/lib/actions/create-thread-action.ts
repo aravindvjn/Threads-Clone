@@ -14,6 +14,8 @@ type PrevStateType = {
         images: File[] | null
     }
 }
+
+
 export const createThread = async (images: File[] | null, prevState: PrevStateType, formData: FormData) => {
     try {
 
@@ -38,6 +40,7 @@ export const createThread = async (images: File[] | null, prevState: PrevStateTy
 
         let image_urls;
 
+        //If images, validate them and upload to cloudinary
         if (Array.isArray(images) && images[0].size > 0) {
 
             const validImageTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"]
@@ -50,6 +53,7 @@ export const createThread = async (images: File[] | null, prevState: PrevStateTy
                 }
             }
 
+            //Upload to cloundinary and get urls
             image_urls = await Promise.all(images.map(imgFile => uploadImageToCloudinary(imgFile)))
 
             if (!image_urls) {
@@ -57,6 +61,7 @@ export const createThread = async (images: File[] | null, prevState: PrevStateTy
             }
         }
 
+        //Save the thread on db
         const thread = await prisma.thread.create({
             data: {
                 content,
@@ -80,6 +85,7 @@ export const createThread = async (images: File[] | null, prevState: PrevStateTy
             ...prevState, error: "Server not responding!"
         }
     }
+
     revalidatePath('/')
     redirect('/')
 }

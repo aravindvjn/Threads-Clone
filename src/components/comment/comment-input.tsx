@@ -1,8 +1,5 @@
 "use client";
-
 import React, {
-  Dispatch,
-  SetStateAction,
   useEffect,
   useRef,
   useState,
@@ -12,18 +9,17 @@ import ProfilePic from "../post/profile-pic";
 import AttachMedia from "../common/attach-media";
 import ThreadImagePreview from "../common/thread-image-preview";
 import { getUserData, UserDataType } from "@/lib/get-functions/get-user-data";
+import { CommentInputProps } from "./type";
 
-type CommentInputProps = {
-  setImages?: Dispatch<SetStateAction<File[] | null>>;
-  setImageUrls: Dispatch<SetStateAction<string[]>>;
-  imageUrls:string[]
-};
+
 
 const CommentInput = ({ setImages, setImageUrls,imageUrls }: CommentInputProps) => {
+
   const [user, setUser] = useState<UserDataType>(null);
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
+  //Handle Input Height to make it responsible
   const handleInput = () => {
     const textArea = textAreaRef?.current;
     if (textArea) {
@@ -32,14 +28,17 @@ const CommentInput = ({ setImages, setImageUrls,imageUrls }: CommentInputProps) 
     }
   };
 
-  useEffect(() => {
-    const fetchCurrentUser = async () => {
-      const results = await getUserData();
-      setUser(results);
-    };
+  //Fetch Current user data to show it in the input section.
+  const fetchCurrentUser = async () => {
+    const results = await getUserData();
+    setUser(results);
+  };
 
+
+  useEffect(() => {
     fetchCurrentUser();
   }, []);
+
 
   if (!user) {
     return null;
@@ -48,12 +47,15 @@ const CommentInput = ({ setImages, setImageUrls,imageUrls }: CommentInputProps) 
   return (
     <>
       <div className="flex px-[10px] pt-[10px] gap-[12px]">
-        <ProfilePic profilePic={user.profilePic || ""} size={47} />
+
+        <ProfilePic username="" profilePic={user.profilePic || ""} size={47} />
+
         <div className="flex flex-col">
           <p className="flex text-[18px] font-semibold items-center gap-1">
             {user?.username}
             {false && <MdVerified className="text-blue-600" />}
           </p>
+
           <textarea
             ref={textAreaRef}
             autoFocus
@@ -63,9 +65,12 @@ const CommentInput = ({ setImages, setImageUrls,imageUrls }: CommentInputProps) 
             rows={1}
             name="content"
           />
+
           <AttachMedia setImageUrls={setImageUrls} setImages={setImages} />
+
         </div>
       </div>
+
       <ThreadImagePreview imageUrls={imageUrls} />
     </>
   );

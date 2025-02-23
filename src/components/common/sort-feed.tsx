@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import React from "react";
 
 const SortFeed = () => {
+  
   const pathName = usePathname();
 
   const commonClasses = "flex-1 font-semibold pb-[10px] flex justify-center";

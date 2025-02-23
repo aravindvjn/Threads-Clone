@@ -6,9 +6,11 @@ import { IoArrowForward } from "react-icons/io5";
 import { authAction } from "@/lib/actions/auth-action";
 
 const LoginForm = () => {
+
   const inputClasses =
     "p-[15px] outline-none rounded-lg bg-cardcolor placeholder:opacity-60";
 
+  //Handle server action to login
   const [state, formAction, isPending] = useActionState(authAction, {
     isLogin: true,
   });

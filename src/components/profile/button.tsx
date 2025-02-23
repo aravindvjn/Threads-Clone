@@ -13,8 +13,10 @@ const Button = ({
   follow: FollowStatusType;
   username: string;
 }) => {
+
   const [status, setStatus] = useState<FollowStatusType>(follow);
 
+  //Handle Follow update Status
   const handleStatus = async () => {
     setStatus((prev) => predictFollowState(prev));
     const res = await updateFollowers(username);

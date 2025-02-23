@@ -4,21 +4,7 @@ import { BsInstagram } from "react-icons/bs";
 import { PiDotsThreeCircle } from "react-icons/pi";
 import ProfilePic from "../post/profile-pic";
 import FollowersStatus from "./followers-stats";
-import { UserDataType } from "@/lib/get-functions/get-user-data";
-import { FollowStatusType } from "./type";
-
-export type ProfilePropsType = {
-  username: string;
-  name: string;
-  profilePic: string | null;
-  followersCount: number;
-  mutualFollowers: {
-      name: string;
-      profilePic: string | null;
-      username: string;
-  }[];
-  follow:FollowStatusType;
-};
+import { ProfilePropsType } from "./type";
 
 const ProfileHead = ({
   name,
@@ -45,9 +31,9 @@ const ProfileHead = ({
           <p className="text-[22px] pr-[10px] overflow-hidden font-semibold">
             {name}
           </p>
-          <p>{username}</p>
+          <p className="opacity-70">@{username}</p>
         </div>
-        <ProfilePic profilePic={profilePic || ""} size={72} />
+        <ProfilePic username="" profilePic={profilePic || ""} size={72} />
       </div>
 
       <FollowersStatus username={username} follow={follow} followersCount={followersCount} mutualFollowers={mutualFollowers} />

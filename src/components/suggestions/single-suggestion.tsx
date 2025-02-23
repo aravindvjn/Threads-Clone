@@ -6,12 +6,10 @@ import Link from "next/link";
 
 type SingleSuggestionType = {
   name: string;
-  id: string;
   username: string;
   profilePic: string | null;
 };
 const SingleSuggestion = ({
-  id,
   name,
   profilePic,
   username,
@@ -21,10 +19,10 @@ const SingleSuggestion = ({
       <button className="opacity-60 absolute right-[14px] top-[14px]">
         <CgClose />
       </button>
-      <ProfilePic size={90} profilePic={profilePic || ""} />
+      <ProfilePic username="" size={90} profilePic={profilePic || ""} />
       <p className="font-bold line-clamp-1">{name}</p>
       <p className="opacity-60 line-clamp-1">{username}</p>
-      <Button />
+      {/* <Button /> */}
     </Link>
   );
 };

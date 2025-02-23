@@ -4,13 +4,10 @@ import { redirect } from "next/navigation";
 import React from "react";
 
 const page =  async() => {
+
+  //Get userData
   const user = await getUserData();
 
-  // const user = {
-  //   id:"",
-  //   username:"hai",
-  //   profilePic:''
-  // }
   if (!user) {
     redirect("/");
   }

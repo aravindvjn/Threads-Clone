@@ -1,13 +1,11 @@
 import React from "react";
-import defaultProfilePicture from '../../assets/default-profile.svg'
+import defaultProfilePicture from "../../assets/default-profile.svg";
 import Image from "next/image";
-type ProfilePictureProps = {
-  profilePic: string;
-  size: number;
-};
+import { ProfilePictureProps } from "./type";
+import Link from "next/link";
 
-const ProfilePic = ({ profilePic, size }: ProfilePictureProps) => {
-  return (
+const ProfilePic = ({ profilePic, size, username }: ProfilePictureProps) => {
+  const image = (
     <Image
       style={{
         width: size,
@@ -20,6 +18,10 @@ const ProfilePic = ({ profilePic, size }: ProfilePictureProps) => {
       alt="profile picture of user"
     />
   );
+  if (username) {
+    return <Link href={`/@${username}`}></Link>;
+  }
+  return image;
 };
 
 export default ProfilePic;

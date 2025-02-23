@@ -1,22 +1,21 @@
 import React from "react";
 import Image from "./image";
-
-type MediaProps = {
-  image_urls?: string[];
-};
-
+import { MediaProps } from "./type";
 
 
 const Media = ({ image_urls = [] }: MediaProps) => {
+
+  if(image_urls.length === 0) return null;
+  
   return (
     <div className="flex flex-col">
-      {image_urls?.length > 0 && (
+
         <div className="flex pl-[67px] pr-[10px] gap-[10px] overflow-x-scroll">
           {image_urls.map((image_url, index) => (
             <Image key={index} url={image_url} />
           ))}
         </div>
-      )}
+      
     </div>
   );
 };
