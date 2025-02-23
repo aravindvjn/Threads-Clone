@@ -47,21 +47,19 @@ A fully functional Threads Clone. Users can create posts (threads), interact wit
 3. Set up environment variables in a `.env` file:
 
    ```env
+   DATABASE_URL= your_postgresql_database_url
+   SECRET_KEY=your secret_key
+   CLOUDINARY_UPLOAD_PRESET= cloundinary_preset
+   CLOUDINARY_CLOUD_NAME= cloundinary_name
+   CLOUDINARY_UPLOAD_URL= cloundinary_url
 
    ```
 
-DATABASE_URL= your_postgresql_database_url 
-SECRET_KEY=your secret_key
-CLOUDINARY_UPLOAD_PRESET= cloundinary_preset
-CLOUDINARY_CLOUD_NAME= cloundinary_name
-CLOUDINARY_UPLOAD_URL= cloundinary_url
-
-````
-
 4. Run database migrations:
-```sh
-npx prisma migrate dev
-````
+
+   ```sh
+   npx prisma migrate dev
+   ```
 
 5. Start the development server:
    ```sh
