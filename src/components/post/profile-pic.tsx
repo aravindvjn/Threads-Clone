@@ -19,7 +19,7 @@ const ProfilePic = ({ profilePic, size, username }: ProfilePictureProps) => {
     />
   );
   if (username) {
-    return <Link href={`/@${username}`}></Link>;
+    return <Link href={`/@${username}`}>{image}</Link>;
   }
   return image;
 };

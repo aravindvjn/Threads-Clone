@@ -9,13 +9,19 @@ export const getSuggestions = async () => {
     const userId = await getUserId();
     if (!userId) return [];
 
-    const followingList = await prisma.user.findUnique({
-      where: { id: userId },
-      select: { following: { select: { id: true } } }
+    const followingList = await prisma.follower.findMany({
+      where: {
+        followerId: userId
+      },
+      select: {
+        followingId: true
+      }
+
     });
 
+
     //map the ids
-    const followingIds = followingList?.following.map(user => user.id) || [];
+    const followingIds = followingList?.map(user => user.followingId) || [];
 
     //fetch the user data which are not in the following list
     const suggestions = await prisma.user.findMany({

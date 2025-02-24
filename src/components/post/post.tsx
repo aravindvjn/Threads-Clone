@@ -1,6 +1,4 @@
 import React from "react";
-import ProfilePic from "./profile-pic";
-import { MdVerified } from "react-icons/md";
 import OperationalButtons from "./operational-buttons";
 import Media from "./content";
 import PostHead from "./post-head";
@@ -15,11 +13,16 @@ const Post = ({
   likeCount,
   replyCount,
   id,
-}: PostPropType) => {
-
+  noHR,
+}: PostPropType & {
+  noHR?: boolean;
+}) => {
   return (
-    <div className={`flex flex-col pt-[10px] ${image_urls.length > 0 ? "gap-[10px]" : ""}`}>
-
+    <div
+      className={`flex flex-col pt-[10px] ${
+        image_urls?.length > 0 ? "gap-[10px]" : ""
+      }`}
+    >
       <PostHead createdAt={createdAt} {...author} content={content} />
 
       <Media image_urls={image_urls} />
@@ -31,7 +34,7 @@ const Post = ({
         likeCount={likeCount}
       />
 
-      <hr className="opacity-30 text-foreground pb-[10px]" />
+      {!noHR && <hr className="opacity-30 text-foreground pb-[10px]" />}
     </div>
   );
 };

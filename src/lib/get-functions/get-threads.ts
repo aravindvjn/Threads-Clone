@@ -2,7 +2,7 @@
 import { getUserId } from "./get-user-id";
 import { prisma } from "../db";
 
-export const getThreads = async (page: number, onlyFollowing?: boolean) => {
+export const getThreads = async (page: number, onlyFollowing?: boolean, onlyUser?: string) => {
 
     //set limit and skip for pagination feature
     const limit = 10;
@@ -28,8 +28,24 @@ export const getThreads = async (page: number, onlyFollowing?: boolean) => {
 
     }
 
+    let onlyUsersId;
+
+    if (onlyUser) {
+        onlyUsersId = (await prisma.user.findUnique({
+            where: {
+                username: onlyUser
+            }
+        }))?.id
+
+        if (!onlyUser) {
+            return []
+        }
+    }
+
     const whereCondition = {
-        ...(onlyFollowing ? {
+        ...(onlyUser ? {
+            authorId: onlyUsersId
+        } : onlyFollowing ? {
             authorId: {
                 in: [...followings, userId ?? '']
             }
@@ -71,7 +87,7 @@ export const getThreads = async (page: number, onlyFollowing?: boolean) => {
         include: includeQueries
     });
 
-    if (threads.length < 10 && !onlyFollowing) {
+    if (threads.length < 10 && !onlyFollowing && !onlyUser) {
         threads = await prisma.thread.findMany({
             orderBy: {
                 createdAt: 'desc',

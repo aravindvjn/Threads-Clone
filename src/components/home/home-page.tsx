@@ -2,24 +2,18 @@
 import Post from "@/components/post/post";
 import HomeHeader from "@/components/common/header";
 import { getThreads } from "@/lib/get-functions/get-threads";
-import {
-  Fragment,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import { useInView } from "framer-motion";
 import { PostPropType } from "../post/type";
 import LoadingSpinner from "../common/loading-spinner";
+import { HomeProps } from "./type";
 
 export default function HomePage({
   onlyFollowing,
-  children
-}: {
-  onlyFollowing?: boolean;
-  children:React.ReactNode
-}) {
+  children,
+  onlyUser,
+}: HomeProps) {
+  
   const [threads, setThreads] = useState<PostPropType[]>([]);
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true });
@@ -32,7 +26,7 @@ export default function HomePage({
     if (isLoading || isFinished) return;
     setIsLoading(true);
 
-    const res = (await getThreads(page, onlyFollowing)) || [];
+    const res = (await getThreads(page, onlyFollowing, onlyUser)) || [];
 
     if (res.length > 0) {
       setThreads((prev) => {
@@ -50,7 +44,6 @@ export default function HomePage({
 
     setIsLoading(false);
   }, [page, onlyFollowing, isLoading, isFinished]);
-
 
   useEffect(() => {
     if (!isLoading && !isFinished) {
@@ -74,7 +67,7 @@ export default function HomePage({
 
   return (
     <div className="pb-[60px]">
-      <HomeHeader />
+      {!onlyUser && <HomeHeader />}
 
       {renderThreads()}
 

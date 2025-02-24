@@ -1,4 +1,4 @@
-import ProfileHead from "@/components/profile/profile-head";
+import ProfileHead from "@/components/profile/profile";
 import { getUserByUsername } from "@/lib/get-functions/get-user-by-username";
 import { notFound } from "next/navigation";
 import React from "react";
@@ -9,6 +9,7 @@ const page = async ({ params }: ParamsType) => {
 
   // Get username from the params
   const { username } = await params;
+
   const extractedUsername = decodeURIComponent(username).split("@")[1];
 
   if (!extractedUsername) {

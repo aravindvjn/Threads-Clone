@@ -37,7 +37,7 @@ const Button = ({
         paddingBottom: padding,
       }}
       onClick={handleStatus}
-      className={`text-center  w-full text-[18px] font-semibold rounded-xl border border-foreground ${ButtonClasses}`}
+      className={`text-center w-full text-[18px] font-semibold rounded-xl border border-foreground ${ButtonClasses}`}
     >
       {status}
     </button>

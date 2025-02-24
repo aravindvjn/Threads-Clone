@@ -22,7 +22,7 @@ const SingleSuggestion = ({
       <ProfilePic username="" size={90} profilePic={profilePic || ""} />
       <p className="font-bold line-clamp-1">{name}</p>
       <p className="opacity-60 line-clamp-1">{username}</p>
-      {/* <Button /> */}
+      <Button follow="Follow" username={username} />
     </Link>
   );
 };

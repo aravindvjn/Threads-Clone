@@ -5,6 +5,10 @@ import ThreadBannerLogo from "../logo/thread-banner-logo";
 import { IoArrowBack } from "react-icons/io5";
 import { authAction } from "@/lib/actions/auth-action";
 
+export const inputClasses =
+"p-[15px] outline-none rounded-lg bg-cardcolor placeholder:opacity-60";
+
+
 const RegisterForm = () => {
 
   //Handle server action to register a new user
@@ -12,8 +16,6 @@ const RegisterForm = () => {
     isLogin: false,
   });
 
-  const inputClasses =
-    "p-[15px] outline-none rounded-lg bg-cardcolor placeholder:opacity-60";
 
   return (
     <form
