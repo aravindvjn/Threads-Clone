@@ -1,4 +1,4 @@
-# Threads Clone ( not finished yet )
+# Threads Clone 
 
 A fully functional Threads Clone. Users can create posts (threads), interact with others, and follow their favorite accounts.
 
@@ -7,7 +7,7 @@ A fully functional Threads Clone. Users can create posts (threads), interact wit
 - **User Authentication**: Secure login/signup with JWT based authentication (manual implementation via cookies).
 - **Post Creation & Interaction**: Users can create, like, and reply to threads ( can attach images ).
 - **Follow System**: Follow/unfollow users and view posts from followed accounts.
-- **Profile Management**: Update profile details, including username and bio.
+- **Profile Management**: Update profile details, including secured password changing.
 - **Responsive UI**: Fully optimized for all screen sizes.
 - **Secure Backend**: Built with Prisma, JWT, and bcrypt for authentication and data management.
 

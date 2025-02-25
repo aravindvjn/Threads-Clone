@@ -32,7 +32,7 @@ const ProfileHead = ({
           </p>
           <p className="opacity-70">@{username}</p>
         </div>
-        <ProfilePic username="" profilePic={profilePic || ""} size={72} />
+        <ProfilePic username="" profilePic={profilePic || ""} size={100} />
       </div>
 
       <div className="px-[20px]" >

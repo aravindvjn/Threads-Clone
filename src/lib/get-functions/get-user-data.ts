@@ -6,7 +6,8 @@ export type UserDataType = {
     name: string;
     username: string;
     profilePic: string | null;
-    followersCount?:number
+    followersCount?:number;
+    email?:string
 } | null
 
 export const getUserData = async () => {
@@ -26,7 +27,8 @@ export const getUserData = async () => {
                 id: true,
                 username: true,
                 name: true,
-                profilePic: true
+                profilePic: true,
+                email:true
             }
         })
 
