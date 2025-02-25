@@ -34,7 +34,7 @@ const Post = ({
         likeCount={likeCount}
       />
 
-      {!noHR && <hr className="opacity-30 text-foreground pb-[10px]" />}
+      {!noHR && <hr className="opacity-30 sm:opacity-15 text-foreground pb-[10px]" />}
     </div>
   );
 };

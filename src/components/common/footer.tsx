@@ -18,9 +18,9 @@ const Footer = () => {
       transition={{
         bounce: false,
       }}
-      className="fixed sm:flex-col -bottom-1 w-full sm:w-[60px] sm:left-0 bg-background border-gray-400/20 h-[60px] sm:h-full flex justify-around items-center sm:bg-[#080808] sm:gap-2" 
+      className="fixed sm:flex-col -bottom-1 w-full sm:w-[60px] left-0 bg-background border-gray-400/20 h-[60px] sm:h-full flex justify-around items-center sm:bg-[#080808] sm:gap-2" 
     >
-      <div></div>
+      <div className="hidden sm:block"></div>
       {navLinks.map((link) => (
         <motion.div whileTap={{ scale: 1.1 }} key={link.path}>
           <Link href={link.path}>
@@ -28,7 +28,7 @@ const Footer = () => {
           </Link>
         </motion.div>
       ))}
-      <div></div>
+      <div className="hidden sm:block"></div>
     </motion.div>
   );
 };
