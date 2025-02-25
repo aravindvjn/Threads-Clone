@@ -5,7 +5,6 @@ import { getUserId } from "../get-functions/get-user-id"
 import { redirect } from "next/navigation"
 import { uploadImageToCloudinary } from "../helper/upload-to-cloudinary"
 import { prisma } from "../db"
-import { revalidatePath } from "next/cache"
 
 type PrevStateType = {
     error: string;
@@ -86,6 +85,5 @@ export const createThread = async (images: File[] | null, prevState: PrevStateTy
         }
     }
 
-    revalidatePath('/')
     redirect('/')
 }

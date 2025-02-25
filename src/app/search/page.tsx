@@ -1,4 +1,3 @@
-import ListedSingleProfile from "@/components/common/listed-single-profile";
 import Search from "@/components/search/search";
 import React from "react";
 

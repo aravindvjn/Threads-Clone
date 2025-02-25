@@ -1,6 +1,6 @@
 import { FollowStatusType } from "@/components/profile/type"
 
-export const followStatus = (isFollowing: boolean, isFollower: boolean):FollowStatusType => {
+export const followStatus = (isFollowing: boolean):FollowStatusType => {
 
     if (isFollowing) {
         return "Following"

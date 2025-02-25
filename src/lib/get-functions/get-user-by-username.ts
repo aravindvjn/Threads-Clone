@@ -25,7 +25,7 @@ export const getUserByUsername = async (username: string) => {
         const otherUserId = otherUser.id;
 
         // Get the followers list in parallel using a transaction
-        const [followersCount, isFollowing, isFollower, userFollowers, otherUserFollowers] = await prisma.$transaction([
+        const [followersCount, isFollowing, userFollowers, otherUserFollowers] = await prisma.$transaction([
 
             // Count followers of the other user
             prisma.follower.count({
@@ -35,11 +35,6 @@ export const getUserByUsername = async (username: string) => {
             // Check if current user follows the other user
             prisma.follower.findFirst({
                 where: { followerId: userId, followingId: otherUserId }
-            }),
-
-            // Check if other user follows the current user
-            prisma.follower.findFirst({
-                where: { followerId: otherUserId, followingId: userId }
             }),
 
             prisma.follower.findMany({
@@ -73,7 +68,7 @@ export const getUserByUsername = async (username: string) => {
             profilePic: otherUser.profilePic,
             followersCount,
             mutualFollowers,
-            follow: followStatus(!!isFollowing, !!isFollower),
+            follow: followStatus(!!isFollowing),
         };
     } catch (error) {
         console.log("Error in getting user by username:", error);

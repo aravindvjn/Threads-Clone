@@ -1,7 +1,5 @@
 "use client";
 import React, {
-  Dispatch,
-  SetStateAction,
   useActionState,
   useEffect,
   useState,
@@ -53,8 +51,8 @@ const Comments = ({ showComments, setShowComments }: CommentsProps) => {
 
   //use useEffect to monitor the change in state and if its success, reset the inputs.
   useEffect(() => {
-    if (state.success && state.data?.comment) {
-      setComments((prev: CommentsType[]) => [...prev, state.data?.comment!]);
+    if (state?.success && state.data?.comment) {
+      setComments((prev: CommentsType[]) => [...prev, state.data.comment as CommentsType]);
       setImages([]);
       setImageUrls([]);
     }

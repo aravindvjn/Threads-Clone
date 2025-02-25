@@ -6,7 +6,6 @@ import Button from "./button";
 import { LuSend } from "react-icons/lu";
 import Comments from "../comment/comments";
 import { updateThreadLike } from "@/lib/actions/update-thread-like";
-import { threadId } from "worker_threads";
 
 type OperationalButtonsType = {
   isUserLiked: boolean;

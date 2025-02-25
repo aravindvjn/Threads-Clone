@@ -12,7 +12,7 @@ export async function handleCompressImages(imageFiles: File[] = []) {
         return []
     }
 
-    let compressedImageFiles: File[] = []
+    const compressedImageFiles: File[] = []
     try {
 
         for (const file of imageFiles) {

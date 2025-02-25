@@ -1,4 +1,3 @@
-import { FollowStatusType } from "@/components/profile/type";
 
 export const timeAgo = (timestamp: Date | undefined) => {
     if (!timestamp) return null
@@ -15,7 +14,7 @@ export const timeAgo = (timestamp: Date | undefined) => {
         { label: "m", seconds: 60 },
     ];
 
-    for (let { label, seconds } of intervals) {
+    for (const { label, seconds } of intervals) {
         const interval = Math.floor(diffInSeconds / seconds);
         if (interval >= 1) return `${interval}${label}`;
     }
@@ -24,9 +23,3 @@ export const timeAgo = (timestamp: Date | undefined) => {
 };
 
 
-export const predictFollowState = (followStatus: FollowStatusType) => {
-    if (followStatus === 'Following') {
-        return "Follow"
-    }
-    return "Following"
-}

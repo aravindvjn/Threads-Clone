@@ -1,7 +1,4 @@
 import React from "react";
-import ArrowBack from "../buttons/arrow-back";
-import { BsInstagram } from "react-icons/bs";
-import { PiDotsThreeCircle } from "react-icons/pi";
 import ProfilePic from "../post/profile-pic";
 import FollowersStatus from "./followers-stats";
 import { ProfilePropsType } from "./type";

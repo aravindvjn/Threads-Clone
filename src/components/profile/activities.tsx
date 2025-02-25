@@ -28,7 +28,7 @@ const Activities = ({ username }: { username: string }) => {
           </button>
         ))}
       </div>
-      {options === "Replies" && <Replies />}
+      {options === "Replies" && <Replies username={username} />}
       {options === "Threads" && <HomePage onlyUser={username} />}
     </div>
   );

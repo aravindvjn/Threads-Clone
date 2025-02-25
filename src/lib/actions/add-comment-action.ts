@@ -1,6 +1,5 @@
 'use server'
 import xss from "xss"
-import { getUserId } from "../get-functions/get-user-id"
 import { uploadImageToCloudinary } from "../helper/upload-to-cloudinary"
 import { prisma } from "../db"
 import { CommentsType } from "@/components/comment/type"
